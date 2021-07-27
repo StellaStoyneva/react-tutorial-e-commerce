@@ -1,5 +1,5 @@
 import "./App.css";
-import { Home, Shop } from "./pages";
+import { Home, Shop, AuthenticationPage } from "./pages";
 import { Switch, Route } from "react-router-dom";
 import {Header} from './navigation'
 
@@ -10,6 +10,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route path="/shop" component={Shop} />
+        <Route path="/signin" component={AuthenticationPage} />
       </Switch>
     </div>
   );
