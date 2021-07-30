@@ -5,3 +5,4 @@ export * from "./CollectionItem";
 export * from "./SignInForm";
 export * from "./CustomButton";
 export * from "./FormInput";
+export * from "./SignUpForm";
