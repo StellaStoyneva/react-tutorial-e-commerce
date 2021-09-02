@@ -12,4 +12,5 @@ export * from "./CartItem/CartItem";
 export * from "./CheckoutItem/CheckoutItem";
 export * from "./CollectionItem";
 export * from "./CollectionsOverview";
+export * from "./StripeCheckoutButton";
 
