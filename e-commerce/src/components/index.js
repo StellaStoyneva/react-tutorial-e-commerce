@@ -10,5 +10,6 @@ export * from "./CartDropdown/CartDropdown";
 export * from "./CartIcon/CartIcon";
 export * from "./CartItem/CartItem";
 export * from "./CheckoutItem/CheckoutItem";
-export * from "./CollectionItem/CollectionItem";
+export * from "./CollectionItem";
+export * from "./CollectionsOverview";
 

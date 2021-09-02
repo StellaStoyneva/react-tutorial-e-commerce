@@ -1,6 +1,6 @@
 import React from "react";
 import "./menu-item.styles.scss";
-import { useHistory } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 export function MenuItem({ size, imageUrl, title, linkUrl, match, history }) {
   //const { history } = useHistory();
@@ -8,7 +8,7 @@ export function MenuItem({ size, imageUrl, title, linkUrl, match, history }) {
     <div
       style={{ backgroundImage: `url(${imageUrl})` }}
       className={`${size}menu-item`}
-      onClick={() => history?.push(`${match.url}${linkUrl}`)}
+      onClick={() => history.push(`${match.url}${linkUrl}`)}
     >
       <div className="content">
         <h1 className="title">{title.toUpperCase()}</h1>
@@ -17,3 +17,5 @@ export function MenuItem({ size, imageUrl, title, linkUrl, match, history }) {
     </div>
   );
 }
+
+export default withRouter(MenuItem);
