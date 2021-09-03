@@ -1,3 +1,3 @@
-import { CollectionPreview } from "./CollectionPreview";
+import CollectionPreview  from "./CollectionPreview";
 
 export { CollectionPreview };
