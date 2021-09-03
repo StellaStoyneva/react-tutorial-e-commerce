@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import { FormInput } from "../FormInput";
 import { CustomButton } from "../CustomButton";
-import "./sign-in.styles.scss";
+import "./styles.js";
 import {auth, signInWithGoogle} from '../../firebase/utils'
-import { useHistory } from "react-router-dom";
+import {
+  SignInContainer,
+  SignInTitle,
+  ButtonsBarContainer
+} from './styles';
 
 export function SignInForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const {history} = useHistory();
+ // const {history} = useHistory();
 
   const resetInputFields = () => {
     setEmail("");
@@ -37,34 +41,34 @@ export function SignInForm() {
   };
 
   return (
-    <div className="sign-in">
-      <h2 className="title">I already have an account</h2>
-      <span>Sign in with your email and password</span>
+    <SignInContainer>
+        <SignInTitle>I already have an account</SignInTitle>
+        <span>Sign in with your email and password</span>
 
-      <form onSubmit={submitHandler}>
-        <FormInput
-          name="email"
-          type="email"
-          onChange={emailChangeHandler}
-          value={email}
-          label="email"
-          required
-        />
-        <FormInput
-          name="password"
-          type="password"
-          value={password}
-          onChange={passwordChangeHandler}
-          label="password"
-          required
-        />
-        <div className='buttons'>
+        <form onSubmit={submitHandler}>
+          <FormInput
+            name='email'
+            type='email'
+            handleChange={emailChangeHandler}
+            value={email}
+            label='email'
+            required
+          />
+          <FormInput
+            name='password'
+            type='password'
+            value={password}
+            handleChange={passwordChangeHandler}
+            label='password'
+            required
+          />
+          <ButtonsBarContainer>
             <CustomButton type='submit'> Sign in </CustomButton>
-            <CustomButton type= 'button' onClick={async () =>{await signInWithGoogle(); history.push('/')}} isGoogleSignIn>
+            <CustomButton onClick={signInWithGoogle} isGoogleSignIn>
               Sign in with Google
             </CustomButton>
-          </div>
-      </form>
-    </div>
+          </ButtonsBarContainer>
+        </form>
+      </SignInContainer>
   );
 }

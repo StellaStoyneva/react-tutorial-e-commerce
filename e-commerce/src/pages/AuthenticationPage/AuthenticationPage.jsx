@@ -1,12 +1,12 @@
 import React from 'react'
 import { SignInForm, SignUpForm } from '../../components'
-import './sign-in-and-sign-up.styles.scss'
+import { SignInAndSignUpContainer } from './styles';
 
 export function AuthenticationPage() {
     return (
-        <div className='sign-in-and-sign-up '>
+        <SignInAndSignUpContainer>
             <SignInForm/>
             <SignUpForm/>
-        </div>
+        </SignInAndSignUpContainer>
     )
 }
