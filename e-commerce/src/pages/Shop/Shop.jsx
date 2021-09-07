@@ -3,24 +3,13 @@ import { CollectionsOverview, Spinner } from "../../components";
 import { Route } from "react-router-dom";
 import CollectionPage from "../Collection/Collection";
 import { connect } from "react-redux";
+import { fetchCollectionsStartAsync } from "../../redux/shop/shop.actions";
+import { selectIsCollectionsLoaded } from '../../redux/shop/shop.selectors';
+import { createStructuredSelector } from "reselect";
 
-import {
-  firestore,
-  convertCollectionsSnapshotToMap,
-} from "../../firebase/utils";
-
-import { updateCollections } from "../../redux/shop/shop.actions";
-
-export const Shop = ({ match, updateCollections }) => {
-  const [isLoading, setIsLoading] = useState(true);
+export const Shop = ({ match, fetchCollectionsStartAsync, isLoading }) => {
   useEffect(() => {
-    const collectionRef = firestore.collection("collections");
-
-    collectionRef.get().then((snapshot) => {
-      const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
-      updateCollections(collectionsMap);
-      setIsLoading(false);
-    });
+    fetchCollectionsStartAsync();
   }, []);
 
   return isLoading ? (
@@ -33,9 +22,12 @@ export const Shop = ({ match, updateCollections }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  updateCollections: (collectionsMap) =>
-    dispatch(updateCollections(collectionsMap)),
+const mapStateToProps = createStructuredSelector({
+  isLoading: state => !selectIsCollectionsLoaded(state)
 });
 
-export default connect(null, mapDispatchToProps)(Shop);
+const mapDispatchToProps = (dispatch) => ({
+  fetchCollectionsStartAsync: () => dispatch(fetchCollectionsStartAsync()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Shop);
