@@ -1,5 +1,6 @@
 import "./App.css";
-import { Home, Shop, AuthenticationPage } from "./pages";
+import { Home, AuthenticationPage } from "./pages";
+import Shop from "./pages/Shop/Shop";
 import { Switch, Route, Redirect } from "react-router-dom";
 import Header from "./navigation/Header/Header";
 import { auth, createUserProfileDocument } from "./firebase/utils";
