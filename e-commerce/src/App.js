@@ -5,7 +5,6 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Header from "./navigation/Header/Header";
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { createStructuredSelector } from "reselect";
 import { selectCurrentUser } from "./redux/user/user.selectors";
 import CheckoutPage from "./pages/CheckoutPage/CheckoutPage";
 import { checkUserSession } from "./redux/user/user.actions";
