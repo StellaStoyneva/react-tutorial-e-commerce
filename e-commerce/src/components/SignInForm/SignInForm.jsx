@@ -2,34 +2,35 @@ import React, { useState } from "react";
 import { FormInput } from "../FormInput";
 import { CustomButton } from "../CustomButton";
 import "./styles.js";
-import { connect } from "react-redux";
 import { SignInContainer, SignInTitle, ButtonsBarContainer } from "./styles";
 import {
   googleSignInStart,
   emailSignInStart,
 } from "../../redux/user/user.actions";
+import { useDispatch } from "react-redux";
 
-function SignInForm({ emailSignInStart, googleSignInStart }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+function SignInForm() {
+  const dispatch = useDispatch();
+  const [userCredentials, setCredentials] = useState({
+    email: "",
+    password: "",
+  });
+
+  const { email, password } = userCredentials;
 
   const resetInputFields = () => {
-    setEmail("");
-    setPassword("");
+    setCredentials({ email: "", password: "" });
   };
 
   const submitHandler = async (event) => {
     event.preventDefault();
-    emailSignInStart(email, password);
+    dispatch(emailSignInStart({ email, password }));
     resetInputFields();
   };
 
-  const emailChangeHandler = (event) => {
-    setEmail(event.target.value);
-  };
-
-  const passwordChangeHandler = (event) => {
-    setPassword(event.target.value);
+  const changeHandler = (event) => {
+    const { value, name } = event.target;
+    setCredentials({ ...userCredentials, [name]: value });
   };
 
   return (
@@ -41,7 +42,7 @@ function SignInForm({ emailSignInStart, googleSignInStart }) {
         <FormInput
           name="email"
           type="email"
-          handleChange={emailChangeHandler}
+          handleChange={changeHandler}
           value={email}
           label="email"
           required
@@ -50,7 +51,7 @@ function SignInForm({ emailSignInStart, googleSignInStart }) {
           name="password"
           type="password"
           value={password}
-          handleChange={passwordChangeHandler}
+          handleChange={changeHandler}
           label="password"
           required
         />
@@ -58,7 +59,7 @@ function SignInForm({ emailSignInStart, googleSignInStart }) {
           <CustomButton type="submit"> Sign in </CustomButton>
           <CustomButton
             type="button"
-            onClick={googleSignInStart}
+            onClick={() => dispatch(googleSignInStart())}
             isGoogleSignIn
           >
             Sign in with Google
@@ -69,10 +70,4 @@ function SignInForm({ emailSignInStart, googleSignInStart }) {
   );
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  googleSignInStart: () => dispatch(googleSignInStart()),
-  emailSignInStart: (email, password) =>
-    dispatch(emailSignInStart({ email, password })),
-});
-
-export default connect(null, mapDispatchToProps)(SignInForm);
+export default SignInForm;

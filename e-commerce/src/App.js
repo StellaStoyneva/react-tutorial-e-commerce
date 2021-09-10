@@ -4,16 +4,19 @@ import Shop from "./pages/Shop/Shop";
 import { Switch, Route, Redirect } from "react-router-dom";
 import Header from "./navigation/Header/Header";
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { selectCurrentUser } from "./redux/user/user.selectors";
 import CheckoutPage from "./pages/CheckoutPage/CheckoutPage";
 import { checkUserSession } from "./redux/user/user.actions";
 
-function App({ checkUserSession, currentUser }) {
+function App() {
+  const dispatch = useDispatch();
+  const currentUser = useSelector(selectCurrentUser)
+  
   useEffect(() => {
-    checkUserSession();
-  }, [checkUserSession]);
+    dispatch(checkUserSession())
+  }, [dispatch]);
 
   return (
     <div>
@@ -34,12 +37,4 @@ function App({ checkUserSession, currentUser }) {
   );
 }
 
-const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  checkUserSession: () => dispatch(checkUserSession()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;
