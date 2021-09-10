@@ -4,54 +4,45 @@ import { FormInput } from "../FormInput";
 import { CustomButton } from "../CustomButton";
 import { signUpStart } from "../../redux/user/user.actions";
 import { SignUpContainer, SignUpTitle } from "./styles";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 
-function SignUpForm({ signUpStart }) {
-  const [displayName, setDisplayName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+function SignUpForm() {
+  const dispatch = useDispatch();
+  const [userCredentials, setUserCredentials] = useState({
+    displayName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const { displayName, email, password, confirmPassword } = userCredentials;
 
   const resetInputFields = () => {
-    setDisplayName("");
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
+    setUserCredentials({
+      displayName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    });
   };
 
   const submitHandler = async (event) => {
     event.preventDefault();
+    
 
     if (password !== confirmPassword) {
       alert("passwords don't match");
       return;
     }
-
-    signUpStart({ displayName, email, password });
+    dispatch(signUpStart({ displayName, email, password }));
     resetInputFields();
   };
 
-  const displayNameChangeHandler = (event) => {
+  const changeHandler = (event) => {
     event.preventDefault();
+    const {value, name} = event.target;
+    setUserCredentials({ ...userCredentials, [name]: value });
 
-    setDisplayName(event.target.value);
-  };
-
-  const emailChangeHandler = (event) => {
-    event.preventDefault();
-    setEmail(event.target.value);
-  };
-
-  const passwordChangeHandler = (event) => {
-    event.preventDefault();
-
-    setPassword(event.target.value);
-  };
-
-  const confirmPasswordChangeHandler = (event) => {
-    event.preventDefault();
-
-    setConfirmPassword(event.target.value);
   };
 
   return (
@@ -63,7 +54,7 @@ function SignUpForm({ signUpStart }) {
           type="text"
           name="displayName"
           value={displayName}
-          onChange={displayNameChangeHandler}
+          onChange={changeHandler}
           label="Display Name"
           required
         />
@@ -71,7 +62,7 @@ function SignUpForm({ signUpStart }) {
           type="email"
           name="email"
           value={email}
-          onChange={emailChangeHandler}
+          onChange={changeHandler}
           label="Email"
           required
         />
@@ -79,7 +70,7 @@ function SignUpForm({ signUpStart }) {
           type="password"
           name="password"
           value={password}
-          onChange={passwordChangeHandler}
+          onChange={changeHandler}
           label="Password"
           required
         />
@@ -87,7 +78,7 @@ function SignUpForm({ signUpStart }) {
           type="password"
           name="confirmPassword"
           value={confirmPassword}
-          onChange={confirmPasswordChangeHandler}
+          onChange={changeHandler}
           label="Confirm Password"
           required
         />
@@ -97,8 +88,4 @@ function SignUpForm({ signUpStart }) {
   );
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  signUpStart: (userCredentials) => dispatch(signUpStart(userCredentials)),
-});
-
-export default connect(null, mapDispatchToProps)(SignUpForm);
+export default SignUpForm;
