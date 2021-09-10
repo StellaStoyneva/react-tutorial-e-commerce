@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { CollectionsOverview, Spinner } from "../../components";
 import { Route } from "react-router-dom";
 import CollectionPage from "../Collection/Collection";
-import { connect } from "react-redux";
-import { fetchCollectionsStartAsync } from "../../redux/shop/shop.actions";
-import { selectIsCollectionsLoaded } from '../../redux/shop/shop.selectors';
-import { createStructuredSelector } from "reselect";
+import { useDispatch, useSelector } from "react-redux";
+import { selectIsCollectionsLoaded } from "../../redux/shop/shop.selectors";
+import { fetchCollectionsStart } from "../../redux/shop/shop.actions";
 
-export const Shop = ({ match, fetchCollectionsStartAsync, isLoading }) => {
+const Shop = ({ match }) => {
+  const dispatch = useDispatch();
+  const isLoading = useSelector((state) => !selectIsCollectionsLoaded(state))
   useEffect(() => {
-    fetchCollectionsStartAsync();
-  }, []);
+    dispatch(fetchCollectionsStart());
+  }, [dispatch]);
 
   return isLoading ? (
     <Spinner />
@@ -22,12 +23,4 @@ export const Shop = ({ match, fetchCollectionsStartAsync, isLoading }) => {
   );
 };
 
-const mapStateToProps = createStructuredSelector({
-  isLoading: state => !selectIsCollectionsLoaded(state)
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  fetchCollectionsStartAsync: () => dispatch(fetchCollectionsStartAsync()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Shop);
+export default Shop;
