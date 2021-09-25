@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.scss";
 import { Home, AuthenticationPage } from "./pages";
 import Shop from "./pages/Shop/Shop";
 import { Switch, Route, Redirect } from "react-router-dom";
@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectCurrentUser } from "./redux/user/user.selectors";
 import CheckoutPage from "./pages/CheckoutPage/CheckoutPage";
 import { checkUserSession } from "./redux/user/user.actions";
+import { GlobalStyle } from './GlobalStyle';
 
 function App() {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ function App() {
 
   return (
     <div>
+      <GlobalStyle />
       <Header />
       <Switch>
         <Route exact path="/" component={Home} />
