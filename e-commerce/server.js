@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const enorce = require("express-sslify");
+const compression = require("compression");
 
 if (process.env.NODE_ENV !== "production") require("dotenv").config();
 
@@ -15,6 +16,7 @@ app.use(
     extended: true,
   })
 );
+app.use(compression);
 
 if (process.env.NODE_ENV === "production") {
   app.use(enforce.HTTPS({ trustProtoHeader: true }));
